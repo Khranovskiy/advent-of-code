@@ -1,0 +1,33 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.2018",
+  "description": "My solution of advent of code 2018",
+  "main": "index.mjs",
+  "dependencies": {
+    "aoc-loader": "^1.2.0",
+    "dotenv": "^6.1.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.3.3",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.1"
+  },
+  "scripts": {
+    "start": "babel-node  index.mjs"
+  },
+  "author": "Denis Khranovsky",
+  "license": "MIT",
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  },
+  "keywords": []
+}
