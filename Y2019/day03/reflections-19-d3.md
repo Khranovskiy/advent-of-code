@@ -20,7 +20,9 @@ https://www.reddit.com/r/adventofcode/comments/e5bz2w/2019_day_3_solutions/
 
 store every point in Set from wire/path is not effective
 
+
 ---  --   -    ---        ----- 
   ---    ----   ---  ---- 
   -----------
+
 

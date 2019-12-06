@@ -1,12 +1,15 @@
 {
   "name": "advent-of-code",
+  "private": true,
   "version": "1.0.2019",
   "description": "My solution of advent of code 2019",
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "day1": "node -r dotenv/config day01/day1.js",
-    "day2": "node -r dotenv/config day02/day2.js",
+    "day1": "node -r dotenv/config aoc-2019-day01.js",
+    "day2": "node -r dotenv/config aoc-2019-day02.js",
+    "day3": "node -r dotenv/config aoc-2019-day03.js",
+    "day4": "node -r dotenv/config aoc-2019-day04.js",
     "lint": "eslint-ci day*/*.js",
     "test": "jest",
     "test:watch": "jest --watch"
