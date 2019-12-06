@@ -1,10 +1,11 @@
 export class IntCodeComputer {
-  constructor(inputData) {
+  constructor (inputData) {
     this.inputData = inputData
     this.inputPosition = 0
     this.actions = this.getActionTable()
   }
-  instruction1(f, state, { modeParam1 }) {
+
+  instruction1 (f, state, { modeParam1 }) {
     const mem = state.memory
     const addr = state.address
     const parameterAddressOrValue = mem[addr + 1]
@@ -16,18 +17,18 @@ export class IntCodeComputer {
     return { ...state, address: addr + addressOffset }
   }
 
-  readInput(parameter) {
+  readInput (parameter) {
     // console.log('readInput called')
     let valueFromInput = this.inputData.charAt(this.inputPosition++)
     return Number(valueFromInput)
   }
 
-  output(parameter) {
+  output (parameter) {
     console.log(parameter)
     return parameter
   }
 
-  readValue(memory, parameterValue, modeParam) {
+  readValue (memory, parameterValue, modeParam) {
     if (modeParam === IntCodeComputer.positionMode) {
       return memory[parameterValue]
     } else if (modeParam === IntCodeComputer.immediateMode) {
@@ -35,14 +36,16 @@ export class IntCodeComputer {
     }
     throw 'modeParam error'
   }
-  writeValue(value, memory, parameterValue, modeParam) {
+
+  writeValue (value, memory, parameterValue, modeParam) {
     if (modeParam === IntCodeComputer.positionMode) {
       memory[parameterValue] = value
       return
     }
     throw 'modeParam error'
   }
-  instruction3(f, state, { modeParam1, modeParam2 }) {
+
+  instruction3 (f, state, { modeParam1, modeParam2 }) {
     const mem = state.memory
     const addr = state.address
 
@@ -62,13 +65,15 @@ export class IntCodeComputer {
     let newState = { ...state, address: addr + addressOffset }
     return newState
   }
-  terminate(state) {
+
+  terminate (state) {
     return { ...state, isTerminate: true }
   }
+
   static positionMode = 0
   static immediateMode = 1
 
-  run(data) {
+  run (data) {
     let state = {
       address: 0,
       isTerminate: false,
@@ -82,7 +87,7 @@ export class IntCodeComputer {
 
       const f = this.actions.get(operator.opCode)
       const newState = f(state, operator)
-      if(!newState){
+      if (!newState) {
         throw 'exception'
       }
       state = newState
@@ -91,14 +96,16 @@ export class IntCodeComputer {
       }
     }
   }
-  sum(a, b) {
+
+  sum (a, b) {
     return a + b
   }
-  multiplies(a, b) {
+
+  multiplies (a, b) {
     return a * b
   }
 
-  parseOperator(value) {
+  parseOperator (value) {
     // A B C D E
     //   1 0 0 2
 
@@ -120,7 +127,7 @@ export class IntCodeComputer {
       .toString()
       .split('')
       .map(Number)
-
+    
     if (opCode === 9 && opCode1 === 9) {
       return {
         opCode: 99
@@ -133,7 +140,8 @@ export class IntCodeComputer {
       modeParam3
     }
   }
-  getActionTable() {
+
+  getActionTable () {
     let table = new Map()
     table.set(1, (state, operator) =>
       this.instruction3(this.sum.bind(this), state, operator)
@@ -152,10 +160,11 @@ export class IntCodeComputer {
   }
 }
 export class IntCodeComputer2 extends IntCodeComputer {
-  constructor(inputData) {
+  constructor (inputData) {
     super(inputData)
   }
-  getActionTable() {
+
+  getActionTable () {
     let baseTable = super.getActionTable()
     // Opcode 5 is jump-if-true: if the first parameter is non-zero,
     // it sets the instruction pointer to the value from the second parameter. Otherwise, it does nothing.
@@ -183,27 +192,31 @@ export class IntCodeComputer2 extends IntCodeComputer {
     }) // equals
     return baseTable
   }
-  jumpIfTrue(conditionValue){
-    return (conditionValue !== 0)
+
+  jumpIfTrue (conditionValue) {
+    return conditionValue !== 0
   }
-  jumpIfFalse(conditionValue){
+
+  jumpIfFalse (conditionValue) {
     return conditionValue === 0
   }
-  lessThan(a,b) {
+
+  lessThan (a, b) {
     return a < b ? 1 : 0
   }
-  equals(a,b) {
+
+  equals (a, b) {
     return a === b ? 1 : 0
   }
 
-  instruction2(f, state, { modeParam1, modeParam2 }) {
+  instruction2 (f, state, { modeParam1, modeParam2 }) {
     const mem = state.memory
     const addr = state.address
 
     const firstParameter = mem[addr + 1]
     const secondParameter = mem[addr + 2]
 
-    const firstValue = this.readValue(mem, firstParameter,modeParam1)
+    const firstValue = this.readValue(mem, firstParameter, modeParam1)
     const secondValue = this.readValue(mem, secondParameter, modeParam2)
 
     let result = f(firstValue, secondValue)
@@ -211,10 +224,9 @@ export class IntCodeComputer2 extends IntCodeComputer {
     // mem[resultParameter] = result
     // this.writeValue(result, mem, resultParameter, IntCodeComputer.positionMode)
     let newAddress = addr
-    if(result){
-      newAddress = secondValue //secondValue
-    }
-    else{
+    if (result) {
+      newAddress = secondValue // secondValue
+    } else {
       newAddress += 3
     }
     return { ...state, address: newAddress }
